@@ -1,0 +1,131 @@
+import { useState } from 'react'
+import { ChevronDown, ChevronUp, Menu, X } from 'lucide-react'
+import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+
+export default function VirtualCallCenterWebsite() {
+  const [expandedSection, setExpandedSection] = useState<string | null>(null)
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+
+  const toggleSection = (section: string) => {
+    setExpandedSection(expandedSection === section ? null : section)
+  }
+
+  const features = [
+    { title: "Virtual Waiting Room", description: "Customizable virtual environment for customer engagement" },
+    { title: "Agent Interaction", description: "Display agent profiles and support voice/text chat" },
+    { title: "AI Chatbot Integration", description: "AI-powered routing and basic inquiry handling" },
+    { title: "Agent Management System", description: "Dashboard for monitoring agent activity and status" },
+    { title: "Platform Accessibility", description: "Web-based platform with future mobile app plans" }
+  ]
+
+  const sections = [
+    { title: "Target Market", content: "Small to medium-sized businesses in healthcare, finance, retail, and tech support" },
+    { title: "Revenue Model", content: "Subscription-based pricing with tiered plans and customization services" },
+    { title: "Competitive Advantage", content: "Unique virtual environments, advanced AI integration, comprehensive management tools" },
+    { title: "Implementation Plan", content: "Phase 1: Development and Testing, Phase 2: Launch and Marketing, Phase 3: Expansion and Optimization" }
+  ]
+
+  return (
+    <div className="min-h-screen flex flex-col">
+      {/* Navigation */}
+      <nav className="bg-primary text-primary-foreground p-4">
+        <div className="container mx-auto flex justify-between items-center">
+          <a href="#" className="text-2xl font-bold">VirtualCC</a>
+          <div className="hidden md:flex space-x-4">
+            <a href="#features" className="hover:underline">Features</a>
+            <a href="#about" className="hover:underline">About</a>
+            <a href="#contact" className="hover:underline">Contact</a>
+          </div>
+          <Button variant="outline" className="md:hidden" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
+            {mobileMenuOpen ? <X /> : <Menu />}
+          </Button>
+        </div>
+        {mobileMenuOpen && (
+          <div className="md:hidden mt-2 space-y-2">
+            <a href="#features" className="block hover:underline">Features</a>
+            <a href="#about" className="block hover:underline">About</a>
+            <a href="#contact" className="block hover:underline">Contact</a>
+          </div>
+        )}
+      </nav>
+
+      {/* Hero Section */}
+      <header className="bg-secondary text-secondary-foreground py-20">
+        <div className="container mx-auto text-center">
+          <h1 className="text-4xl font-bold mb-4">Virtual Call Center with Interactive Waiting Room</h1>
+          <p className="text-xl mb-8">An innovative customer service solution combining traditional call center functionality with a virtual, interactive experience.</p>
+          <Button size="lg">Get Started</Button>
+        </div>
+      </header>
+
+      {/* Main Content */}
+      <main className="flex-grow container mx-auto px-4 py-8">
+        {/* Features Section */}
+        <section id="features" className="mb-12">
+          <h2 className="text-3xl font-bold mb-6">Key Features</h2>
+          <div className="grid md:grid-cols-2 gap-6">
+            {features.map((feature, index) => (
+              <Card key={index}>
+                <CardHeader>
+                  <CardTitle>{feature.title}</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p>{feature.description}</p>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </section>
+
+        {/* About Section */}
+        <section id="about" className="mb-12">
+          <h2 className="text-3xl font-bold mb-6">About Our Service</h2>
+          {sections.map((section, index) => (
+            <Card key={index} className="mb-4">
+              <CardHeader>
+                <CardTitle>
+                  <Button
+                    variant="ghost"
+                    className="w-full justify-between"
+                    onClick={() => toggleSection(section.title)}
+                  >
+                    {section.title}
+                    {expandedSection === section.title ? (
+                      <ChevronUp className="h-4 w-4" />
+                    ) : (
+                      <ChevronDown className="h-4 w-4" />
+                    )}
+                  </Button>
+                </CardTitle>
+              </CardHeader>
+              {expandedSection === section.title && (
+                <CardContent>
+                  <p>{section.content}</p>
+                </CardContent>
+              )}
+            </Card>
+          ))}
+        </section>
+
+        {/* Contact Section */}
+        <section id="contact" className="mb-12">
+          <h2 className="text-3xl font-bold mb-6">Contact Us</h2>
+          <Card>
+            <CardContent className="p-6">
+              <p className="mb-4">Interested in our Virtual Call Center solution? Get in touch with us for more information or to schedule a demo.</p>
+              <Button>Contact Sales</Button>
+            </CardContent>
+          </Card>
+        </section>
+      </main>
+
+      {/* Footer */}
+      <footer className="bg-primary text-primary-foreground p-4">
+        <div className="container mx-auto text-center">
+          <p>&copy; 2024 VirtualCC. All rights reserved.</p>
+        </div>
+      </footer>
+    </div>
+  )
+}
